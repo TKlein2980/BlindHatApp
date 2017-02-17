@@ -22,6 +22,27 @@ public abstract class gps extends Activity implements LocationListener {
 
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+
+        mBluetoothAdapter = new BluetoothAdapter.getDefaultAdapter();
+        if(mbluetoothAdapter == null)
+        {
+            //device does not support bluetooth
+        }
+
+        if(mBluetoothAdapter.isEnabled())
+        {
+            Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+            startActivityForResult(enableBtIntent, 1);
+        }
+
+        Set<BluetoothDevice> pairedDevices = mBluetoothAdapter.getBondedDevices();
+        if(pairedDevices.size() > 0)
+        {
+            for(BluetoothDevice device : pairedDevices)
+            {
+                mdevice = device;
+            }
+        }
     }
 
     @Override
